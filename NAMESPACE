@@ -1,0 +1,13 @@
+exportPattern(OutlierDetection)
+ importFrom("stats", "cov", "dist", "mahalanobis", "pchisq", "qchisq",
+               "qnorm", "quantile", "var")
+    importFrom("utils", "data")
+export(maha)
+export(nn)
+export(nnk)
+export(disp)
+export(dens)
+export(depthout)
+importFrom(depth,depth)
+importFrom(ldbod,ldbod)
+import(ggplot2)
