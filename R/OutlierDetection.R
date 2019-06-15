@@ -1,6 +1,6 @@
 #' Outlier Detection(Intersection of all the methods)
 #'
-#' Takes a dataset and find its outliers using combination of different method
+#' Takes a dataset and finds its outliers using combination of different method
 #' @param x dataset for which outliers are to be found
 #' @param k No. of nearest neighbours to be used for for outlier detection using bootstrapping, default value is 0.05*nrow(x)
 #' @param cutoff Percentile threshold used for distance, default value is 0.95
@@ -14,6 +14,7 @@
 #' @details OutlierDetection finds outlier observations for the data using different methods and based on all the methods considered, labels an observation as outlier(intersection of all the methods). For bivariate data, it also shows the scatterplot of the data with labelled outliers.
 #' @return Outlier Observations: A matrix of outlier observations
 #' @return Location of Outlier: Vector of Sr. no. of outliers
+#' @author Vinay Tiwari, Akanksha Kashikar
 
 #' @examples
 #' OutlierDetection(iris[,-5])
@@ -21,7 +22,7 @@
 OutlierDetection=function(x,k=0.05*nrow(x),cutoff=.95,Method="euclidean",rnames=FALSE,depth=FALSE,dense=FALSE,distance=FALSE,dispersion=FALSE)
 {
 
-  data=x
+  data=as.data.frame(x)
   out=OutlierDetection::maha(x,cutoff=.95)$'Location of Outlier'
   if(dispersion==FALSE)
   {out=out
@@ -56,17 +57,17 @@ OutlierDetection=function(x,k=0.05*nrow(x),cutoff=.95,Method="euclidean",rnames=
     out5=OutlierDetection::dens(x)$'Location of Outlier'
     out=intersect(out5,out)
   }
+  d=1:nrow(data)
+  Class=c()
+  Class=rep("Usual",length(d))
+  for (i in 1:length(out)) {
+
+    Class[d==out[i]]="Outlier"
+  }
+  cols <- c("Outlier" = "red", "Usual" = "blue")
 
   if(ncol(x)==2)
   {
-    d=1:nrow(data)
-    Class=c()
-    Class=rep("Normal",length(d))
-    for (i in 1:length(out)) {
-
-      Class[d==out[i]]="Outlier"
-    }
-    cols <- c("Outlier" = "red", "Normal" = "blue")
 
     if(rnames==T)
     {
@@ -80,6 +81,21 @@ OutlierDetection=function(x,k=0.05*nrow(x),cutoff=.95,Method="euclidean",rnames=
     }
     Out=x[out,]
     l=list("Outlier Observations"=Out,"Location of Outlier"=out,"Scatter plot"=gplot)
+  }else if(ncol(x)==3)
+  {
+
+
+    plot=plotly::plot_ly(x=data[,1],y=data[,2],z=data[,3],type="scatter3d",mode="markers",color=Class,colors=c("Red","Blue"))
+    Out=x[out,]
+
+    l=list("Outlier Observations"=Out,"Location of Outlier"=out,"3Dplot"=plot)
+  }else if(ncol(x)==4)
+  {
+
+    plot=plotly::plot_ly(x=data[,1],y=data[,2],z=data[,3],size = data[,4],type="scatter3d",mode="markers",color=Class,colors=c("Red","Blue"))
+    Out=x[out,]
+
+    l=list("Outlier Observations"=Out,"Location of Outlier"=out,"3Dplot"=plot)
   }else{
     Out=x[out,]
   l=list("Outlier Observations"=Out,"Location of Outlier"=out)}

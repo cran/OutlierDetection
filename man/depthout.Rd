@@ -23,7 +23,7 @@ Location of Outlier: Vector of Sr. no. of outliers
 Outlier probability: Vector of proportion of times an outlier exceeds local bootstrap cutoff
 }
 \description{
-Takes a dataset and find its outliers using depth-based method
+Takes a dataset and finds its outliers using depth-based method
 }
 \details{
 depthout computes depth of an observation using depthTools package and based on the bootstrapped cutoff, label an observation as outlier. Outlierliness of the labelled 'Outlier' is also reported and it is the bootstrap estimate of probability of the observation being an outlier. For bivariate data, it also shows the scatterplot of the data with labelled outliers.
@@ -36,4 +36,7 @@ depthout(X,cutoff=0.05)
 }
 \references{
 Johnson, T., Kwok, I., and Ng, R.T. 1998. Fast computation of 2-dimensional depth contours. In Proc. Int. Conf. on Knowledge Discovery and Data Mining (KDD), New York, NY. Kno
+}
+\author{
+Vinay Tiwari, Akanksha Kashikar
 }

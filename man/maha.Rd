@@ -21,10 +21,10 @@ Location of Outlier: vector of Sr. no. of outliers
 Outlier probability: vector of (1-p value) of outlier observations
 }
 \description{
-Takes a dataset and find its outliers using modelbased method
+Takes a dataset and finds its outliers using modelbased method
 }
 \details{
-maha computes Mahalanibis distance an observation and based on the Chi square cutoff, labels an observation as outlier. Outlierliness of the labelled 'Outlier' is also reported based on its p vlaues. For bivariate data, it also shows the scatterplot of the data with labelled outliers.
+maha computes Mahalanibis distance an observation and based on the Chi square cutoff, labels an observation as outlier. Outlierliness of the labelled 'Outlier' is also reported based on its p values. For bivariate data, it also shows the scatterplot of the data with labelled outliers.
 }
 \examples{
 #Create dataset
@@ -34,4 +34,7 @@ maha(X,cutoff=0.9)
 }
 \references{
 Barnett, V. 1978. The study of outliers: purpose and model. Applied Statistics, 27(3), 242–250.
+}
+\author{
+Vinay Tiwari, Akanksha Kashikar
 }

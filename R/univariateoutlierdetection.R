@@ -1,6 +1,6 @@
 #' Univariate Outlier Detection(Intersection of all the methods)
 #'
-#' Takes a vector and find its outliers using combination of different methods
+#' Takes a vector and finds its outliers using combination of different methods
 #' @param x vector for which outliers are to be found
 #' @param k No. of nearest neighbours to be used for distance methods, default value is 0.05*nrow(x)
 #' @param cutoff Percentile threshold used for outlier detection using bootstrapping, default value is 0.95
@@ -12,6 +12,7 @@
 #' @details UnivariateOutlierDetection finds outlier observations for an univariate data using different methods and based on all the methods, labels an observation as outlier(intersection of all the methods). It also shows the scatterplot of the data with labelled outliers with observation no. as x-axis.
 #' @return Outlier Observations: A vector of outlier observations
 #' @return Location of Outlier: Vector of Sr. no. of outliers
+#' @author Vinay Tiwari, Akanksha Kashikar
 
 #' @examples
 #' #Create dataset

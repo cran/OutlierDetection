@@ -1,6 +1,6 @@
 #' Outlier detection using depth based method
 #'
-#' Takes a dataset and find its outliers using depth-based method
+#' Takes a dataset and finds its outliers using depth-based method
 #' @param x dataset for which outliers are to be found
 #' @param cutoff Percentile threshold used for depth, default value is 0.05
 #' @param rnames Logical value indicating whether the dataset has rownames, default value is False
@@ -11,6 +11,8 @@
 #' @return Location of Outlier: Vector of Sr. no. of outliers
 #' @return Outlier probability: Vector of proportion of times an outlier exceeds local bootstrap cutoff
 #' @references Johnson, T., Kwok, I., and Ng, R.T. 1998. Fast computation of 2-dimensional depth contours. In Proc. Int. Conf. on Knowledge Discovery and Data Mining (KDD), New York, NY. Kno
+#' @author Vinay Tiwari, Akanksha Kashikar
+
 #' @examples
 #' #Create dataset
 #' X=iris[,1:4]
@@ -21,24 +23,45 @@
 depthout=function(x,rnames=FALSE,cutoff=0.05,boottimes=100)
 {
 
-  data=x
+  data=as.data.frame(x)
   a=depthTools::MBD(data)
   d=a$MBD
-  bootlb=c()
+  quanorig=quantile(d,cutoff)
+  #ub=quantile(d,cutoff)
+  k=density(d)
+  aa=which(k$x<=quanorig)
+  a=max(aa)
+  b=which.max(k$x>=quanorig)
+  f=((k$y[b]-k$y[a])/(k$x[b]-k$x[a]))*(quanorig-k$x[a])+k$y[a]
+
+  varorig=((1-cutoff)*cutoff)/f^2
+
+  bootlbnorm=c();f=0;k=0
   for (j in 1:boottimes) {
     s=sample(1:length(d),length(d),replace = T)
     bootdata=d[s]
-    bootlb[j]=quantile(bootdata,cutoff)
+    bootlb=quantile(bootdata,cutoff)
+    k=density(bootdata)
+    aa=which(k$x<=quanorig)
+    a=max(aa)
+    b=which.max(k$x>=quanorig)
+    f=((k$y[b]-k$y[a])/(k$x[b]-k$x[a]))*(quanorig-k$x[a])+k$y[a]
+
+    v=((1-cutoff)*cutoff)/f^2
+    bootlbstand=(bootlb-quantile(d,cutoff))/sqrt(v)
+    bootlbnorm[j]=bootlbstand*sqrt(varorig)+quanorig
 
   }
-  lb=mean(bootlb)
+
+  lb=quantile(bootlbnorm,cutoff)
   wh=which(d<lb)
   out=data[wh,]
   loc=wh
 
+
   p=c()                             #outlier probability
   for (i in wh) {
-    p[i]=length(which(bootlb>d[i]))/length(bootlb)
+    p[i]=length(which(bootlbnorm>d[i]))/length(bootlbnorm)
   }
 
 if(ncol(x)==2)
@@ -58,6 +81,20 @@ if(ncol(x)==2)
     gplot
     }
   l=list("Outlier Observations"=out,"Location of Outlier"=loc,"Outlier Probability"=p[is.na(p)==F],"Scatter plot"=gplot)
+}else if(ncol(x)==3)
+{
+  Class=as.factor(ifelse(d<lb,"Outlier","Usual"))
+
+  plot=plotly::plot_ly(x=data[,1],y=data[,2],z=data[,3],type="scatter3d",mode="markers",color=Class,colors=c("Red","Blue"))
+
+  l=list("Outlier Observations"=out,"Location of Outlier"=loc,"Outlier Probability"=p[is.na(p)==F],"3Dplot"=plot)
+}else if(ncol(x)==4)
+{
+  Class=as.factor(ifelse(d<lb,"Outlier","Usual"))
+
+  plot=plotly::plot_ly(x=data[,1],y=data[,2],z=data[,3],size = data[,4],type="scatter3d",mode="markers",color=Class,colors=c("Red","Blue"))
+
+  l=list("Outlier Observations"=out,"Location of Outlier"=loc,"Outlier Probability"=p[is.na(p)==F],"3Dplot"=plot)
 }else
   l=list("Outlier Observations"=out,"Location of Outlier"=loc,"Outlier Probability"=p[is.na(p)==F])
    return(l)

@@ -1,14 +1,16 @@
 #' Outlier detection using Mahalanobis Distance
 #'
-#' Takes a dataset and find its outliers using modelbased method
+#' Takes a dataset and finds its outliers using modelbased method
 #' @param x dataset for which outliers are to be found
 #' @param cutoff Percentile threshold used for distance, default value is 0.95
 #' @param rnames Logical value indicating whether the dataset has rownames, default value is False
-#' @details maha computes Mahalanibis distance an observation and based on the Chi square cutoff, labels an observation as outlier. Outlierliness of the labelled 'Outlier' is also reported based on its p vlaues. For bivariate data, it also shows the scatterplot of the data with labelled outliers.
+#' @details maha computes Mahalanibis distance an observation and based on the Chi square cutoff, labels an observation as outlier. Outlierliness of the labelled 'Outlier' is also reported based on its p values. For bivariate data, it also shows the scatterplot of the data with labelled outliers.
 #' @return Outlier Observations: A matrix of outlier observations
 #' @return Location of Outlier: vector of Sr. no. of outliers
 #' @return Outlier probability: vector of (1-p value) of outlier observations
 #' @references Barnett, V. 1978. The study of outliers: purpose and model. Applied Statistics, 27(3), 242–250.
+#' @author Vinay Tiwari, Akanksha Kashikar
+
 #' @examples
 #' #Create dataset
 #' X=iris[,1:4]
@@ -19,7 +21,7 @@
 maha=function(x,cutoff=.95,rnames=FALSE)
 {
 
-  data=x
+  data=as.data.frame(x)
   Mean=colMeans(x);Cov=cov(x)
   m=mahalanobis(x,Mean,Cov)
   cut=qchisq(cutoff,ncol(x))
@@ -46,7 +48,20 @@ maha=function(x,cutoff=.95,rnames=FALSE)
 
     }
     l=list("Outlier Observations"=out,"Location of Outlier"=loc,"Outlier Probability"=p[is.na(p)==F],"Scatter plot"=gplot)
+  }else if(ncol(x)==3)
+  {
+    Class=as.factor(ifelse(m>cut,"Outlier","Usual"))
+
+    plot=plotly::plot_ly(x=data[,1],y=data[,2],z=data[,3],type="scatter3d",mode="markers",color=Class,colors=c("Red","Blue"))
+
+    l=list("Outlier Observations"=out,"Location of Outlier"=loc,"Outlier Probability"=p[is.na(p)==F],"3Dplot"=plot)
+  }else if(ncol(x)==4)
+  {
+    Class=as.factor(ifelse(m>cut,"Outlier","Usual"))
+
+    plot=plotly::plot_ly(x=data[,1],y=data[,2],z=data[,3],size = data[,4],type="scatter3d",mode="markers",color=Class,colors=c("Red","Blue"))
+
+    l=list("Outlier Observations"=out,"Location of Outlier"=loc,"Outlier Probability"=p[is.na(p)==F],"3Dplot"=plot)
   }else
   l=list("Outlier Observations"=out,"Location of Outlier"=loc,"Outlier Probability"=p[is.na(p)==F])
   return(l)}
-

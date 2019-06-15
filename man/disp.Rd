@@ -23,7 +23,7 @@ Location of Outlier: Vector of Sr. no. of outliers
 Outlier probability: Vector of proportion of times an outlier exceeds local bootstrap cutoff
 }
 \description{
-Takes a dataset and find its outliers using dispersion-based method
+Takes a dataset and finds its outliers using dispersion-based method
 }
 \details{
 disp computes LOO dispersion matrix for each observation(dispersion matrix without cosidering the current observation) and based on the bootstrapped cutoff for score(difference between determinant of LOO dispersion matrix and det of actual dispersion matrix), labels an observation as outlier. Outlierliness of the labelled 'Outlier' is also reported and it is the bootstrap estimate of probability of the observation being an outlier. For bivariate data, it also shows the scatterplot of the data with labelled outliers.
@@ -36,4 +36,7 @@ disp(X,cutoff=0.99)
 }
 \references{
 Jin, W., Tung, A., and Han, J. 2001. Mining top-n local outliers in large databases. In Proc. ACM SIGKDD Int. Conf. on Knowledge Discovery and Data Mining (SIGKDD), San Francisco, CA.
+}
+\author{
+Vinay Tiwari, Akanksha Kashikar
 }

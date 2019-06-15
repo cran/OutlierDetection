@@ -32,7 +32,7 @@ Location of Outlier: Vector of Sr. no. of outliers
 Outlier probability: Vector of proportion of times an outlier exceeds local bootstrap cutoff
 }
 \description{
-Takes a dataset and find its outliers using Robust Kernal-based Outlier Factor(RKOF) algorithm
+Takes a dataset and finds its outliers using Robust Kernal-based Outlier Factor(RKOF) algorithm
 }
 \details{
 dens computes outlier score of an observation using DDoutlier package(based on RKOF algorithm) and based on the bootstrapped cutoff, labels an observation as outlier. Outlierliness of the labelled 'Outlier' is also reported and it is the bootstrap estimate of probability of the observation being an outlier. For bivariate data, it also shows the scatterplot of the data with labelled outliers.
@@ -45,4 +45,7 @@ dens(X,k=4,C=1)
 }
 \references{
 Ester, M., Kriegel, H.-P., Sander, J., and Xu, X. 1996. A density-based algorithm for discovering clusters in large spatial databases with noise. In Proc. Int. Conf. on Knowledge Discovery and Data Mining (KDD), Portland, OR.
+}
+\author{
+Vinay Tiwari, Akanksha Kashikar
 }

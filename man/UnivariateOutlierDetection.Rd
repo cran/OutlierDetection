@@ -31,7 +31,7 @@ Outlier Observations: A vector of outlier observations
 Location of Outlier: Vector of Sr. no. of outliers
 }
 \description{
-Takes a vector and find its outliers using combination of different methods
+Takes a vector and finds its outliers using combination of different methods
 }
 \details{
 UnivariateOutlierDetection finds outlier observations for an univariate data using different methods and based on all the methods, labels an observation as outlier(intersection of all the methods). It also shows the scatterplot of the data with labelled outliers with observation no. as x-axis.
@@ -42,4 +42,7 @@ X=iris[,1:4]
 #Outlier detection
 depthout(X,cutoff=0.05)
 UnivariateOutlierDetection(iris[,1],cutoff=.95,Method="euclidean",rnames=FALSE)
+}
+\author{
+Vinay Tiwari, Akanksha Kashikar
 }

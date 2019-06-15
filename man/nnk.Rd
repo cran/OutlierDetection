@@ -28,7 +28,7 @@ Location of Outlier: Vector of Sr. no. of outliers
 Outlier probability: Vector of proportion of times an outlier exceeds local bootstrap cutoff
 }
 \description{
-Takes a dataset and find its outliers using distance-based method
+Takes a dataset and finds its outliers using distance-based method
 }
 \details{
 nnk computes kth nearest neighbour distance of an observation and based on the bootstrapped cutoff, labels an observation as outlier. Outlierliness of the labelled 'Outlier' is also reported and it is the bootstrap estimate of probability of the observation being an outlier. For bivariate data, it also shows the scatterplot of the data with labelled outliers.
@@ -41,4 +41,7 @@ nnk(X,k=4)
 }
 \references{
 Hautamaki, V., Karkkainen, I., and Franti, P. 2004. Outlier detection using k-nearest neighbour graph. In Proc. IEEE Int. Conf. on Pattern Recognition (ICPR), Cambridge, UK.
+}
+\author{
+Vinay Tiwari, Akanksha Kashikar
 }
